@@ -18,9 +18,7 @@ This whole report is built on a star schema. The `Transactions` table is the "ce
 
 A key part of this setup is a dedicated `Measures` table. All **my** DAX formulas live there, which keeps the model clean and easy to manage.
 
-**[Space to insert Data Model screenshot]**
-*Replace this line with your Data Model image.*
-
+Data Model ![Model](https://github.com/Codeblack09/Revenue-Cohort-Analysis-E-Commerce/blob/main/Images/Data%20Model%20-%20Rev%20%26%20Cohort%20Analysis.png)
 
 ---
 
@@ -54,8 +52,10 @@ IF(
     vCurrentRevenue,
     BLANK()
 )
+```
 
-[Space to insert Revenue Anomaly screenshot] Replace this line with your screenshot for this feature.
+**Revenue Trend & Anomaly Annotation** 
+![Chart](https://github.com/Codeblack09/Revenue-Cohort-Analysis-E-Commerce/blob/main/Images/Revenue%20Trend%20%26%20Anomalies.png)
 
 ---
 
@@ -64,26 +64,25 @@ This is the most important part for understanding customer loyalty. **I** wanted
 
 This required three key measures:
 
-1.  **Cohort_customers:** First, **I** calculate the total number of unique customers in each cohort, ignoring all other filters except their cohort month.
+1.  **Cohort_customers:** First, **I** calculated the total number of unique customers in each cohort, ignoring all other filters except their cohort month.
     **DAX Measure:**
     ```dax
     Cohort_customers = CALCULATE(DISTINCTCOUNT(Customers[customer_id]), ALLEXCEPT('Customers',Customers[Cohort_Month]))
     ```
 
-2.  **Active_Customers:** Next, **I** just get a simple count of unique customers who made a transaction in the current period.
+2.  **Active_Customers:** Next, **I** just got a simple count of unique customers who made a transaction in the current period.
     **DAX Measure:**
     ```dax
     Active_Customers = DISTINCTCOUNT(Transactions[customer_id])
     ```
 
-3.  **Retention %:** Finally, **I** divide the active customers by their original cohort size. This gives **me** the retention rate for that specific cohort over time.
+3.  **Retention %:** Finally, **I** divided the active customers by their original cohort size. This gives **me** the retention rate for that specific cohort over time.
     **DAX Measure:**
     ```dax
     Retention % = DIVIDE([Active_Customers], [Cohort_customers], 0)
     ```
-
-**[Space to insert Cohort Analysis screenshot]**
-*Replace this line with your screenshot for this feature.*
+**Cohort Retention Analysis** 
+![Chart](https://github.com/Codeblack09/Revenue-Cohort-Analysis-E-Commerce/blob/main/Images/Cohort%20Analysis.png)
 
 ---
 
@@ -95,9 +94,13 @@ First, **I** needed a simple count of tickets:
 **DAX Measure:**
 ```dax
 Ticket_Volume = COUNT(Support_Tickets[customer_id])
+```
+The real key, however, was a new calculated column I added to the Customers table. This column looks at both the Transactions and Support_Tickets tables (using the active relationships) to label each customer with a "Payment Segment." This let me filter my entire report to see how (for example) customers with "Failed Payments" behave differently from "Active Subscribers."
+
+**Tickets VS Payment Status** 
+![Chart](https://github.com/Codeblack09/Revenue-Cohort-Analysis-E-Commerce/blob/main/Images/Ticket%20Vol%20Vs%20Payment%20Status.png)
 
 ---
 
 ## 6. Live Interactive Dashboard
-[Revenue, Cohort & Operational Analysis E-Commerce](https://your-link-here)
-*Replace 'https://your-link-here' with your actual public dashboard link.*
+[Revenue, Cohort & Operational Analysis E-Commerce](https://app.powerbi.com/view?r=eyJrIjoiY2EyNTNhZTYtODI3Mi00N2UzLTk5NDItN2VkZThjYzFlNmNlIiwidCI6ImM2ZTU0OWIzLTVmNDUtNDAzMi1hYWU5LWQ0MjQ0ZGM1YjJjNCJ9)
