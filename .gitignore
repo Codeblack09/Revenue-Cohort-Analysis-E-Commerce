@@ -1,0 +1,3 @@
+*.pbix.backup
+*.pbix.lck
+~*.pbix
