@@ -1,0 +1,4 @@
+# Power BI temporary files & backups
+*.pbix.backup
+*.pbix.lck
+~*.pbix
